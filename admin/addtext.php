@@ -1,7 +1,16 @@
 <?php
 ob_start();
 session_start();
-error_reporting(0);
+$now = time();
+if(isset($_SESSION['expire'])){
+    if ($now > $_SESSION['expire']) {
+        session_destroy();
+        header("Location: index.php");
+    }
+}
+else{
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +39,7 @@ error_reporting(0);
     <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css?version0.0.1">
+    <link rel="stylesheet" type="text/css" href="css/main.css?version0.0.1w2">
     <!--===============================================================================================-->
 </head>
 
@@ -38,28 +47,32 @@ error_reporting(0);
 
     <div class="limiter">
         <div class="container-login100">
-            <div class="wrap-login100">
-                <div class="login100-form-title" style="display: none; background-image: url(images/bg-01.jpg);">
+            <div class="wrap-login100" style="width: 100%; max-width:1280px">
+                <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
                     <span class="login100-form-title-1">
-                        Sign In
+                        Welcome <?=$_SESSION['adminname']?>! How're u today?
                     </span>
                 </div>
 
+                <a class="login100-form-a" onclick="window.location.replace('logout.php');" >Logout</a>
+                <div style="clear: both;"></div>
                 <form class="login100-form validate-form" name="adminform" method="POST" action="">
-                    <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Title is required">
                         <span class="label-input100">Text title</span>
                         <input value="1" class="input100" autocomplete="off" type="text" name="adminname" placeholder="Enter username">
                         <span class="focus-input100"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+                    <div class="wrap-input100 validate-input m-b-18" data-validate="Textarticle is required">
                         <span class="label-input100">Text article</span>
-                        <textarea class="label-textarea100" name="" id=""rows="10"></textarea>
+                        <textarea class="label-textarea100" name="" id="" rows="10"></textarea>
                         <span class="focus-input100"></span>
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <input type="submit" class="login100-form-btn" name="adminlogin" value="Login">
+                        <input type="submit" class="login100-form-btn" name="adminlogin" value="Add text">
+                        <br>
+                        
                     </div>
                 </form>
             </div>
